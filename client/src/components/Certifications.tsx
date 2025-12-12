@@ -6,6 +6,7 @@ const certifications = [
     title: "Digital Marketing Course",
     issuer: "Tutedude",
     date: "Nov 2025",
+    description: "Mastered SEO, social media algorithms, and data-driven marketing strategies to maximize online reach and engagement.",
     icon: <TrendingUp className="w-8 h-8 text-pink-400" />,
     color: "from-pink-500/20 to-rose-500/20",
     border: "group-hover:border-pink-500/50"
@@ -14,6 +15,7 @@ const certifications = [
     title: "Artificial Intelligence Internship",
     issuer: "Lenovo Leap NextGen Scholar",
     date: "2025",
+    description: "Gained hands-on experience in AI models, machine learning concepts, and their practical applications in modern tech ecosystems.",
     icon: <Cpu className="w-8 h-8 text-cyan-400" />,
     color: "from-cyan-500/20 to-blue-500/20",
     border: "group-hover:border-cyan-500/50"
@@ -22,6 +24,7 @@ const certifications = [
     title: "Information Technology",
     issuer: "Manipal Institute of Computer Education",
     date: "2022 – 2023",
+    description: "Developed a strong foundation in computer systems, software development lifecycles, and IT infrastructure management.",
     icon: <BookOpen className="w-8 h-8 text-purple-400" />,
     color: "from-purple-500/20 to-indigo-500/20",
     border: "group-hover:border-purple-500/50"
@@ -30,6 +33,7 @@ const certifications = [
     title: "Software Project Management",
     issuer: "Short-Term Course",
     date: "2024 – 2025",
+    description: "Learned agile methodologies, resource planning, and project tracking tools to lead software projects efficiently.",
     icon: <BadgeCheck className="w-8 h-8 text-emerald-400" />,
     color: "from-emerald-500/20 to-teal-500/20",
     border: "group-hover:border-emerald-500/50"
@@ -38,6 +42,7 @@ const certifications = [
     title: "Financial Literacy Achievement",
     issuer: "MES Vasant Joshi College",
     date: "2024",
+    description: "Acquired essential knowledge in financial planning, investment strategies, and economic awareness.",
     icon: <Award className="w-8 h-8 text-yellow-400" />,
     color: "from-yellow-500/20 to-orange-500/20",
     border: "group-hover:border-yellow-500/50"
@@ -85,6 +90,10 @@ export default function Certifications() {
                 
                 <p className="text-white/60 text-sm font-bold uppercase tracking-wider mb-4">
                   {cert.issuer}
+                </p>
+
+                <p className="text-white/70 text-sm leading-relaxed mb-6 flex-grow">
+                  {cert.description}
                 </p>
                 
                 <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
