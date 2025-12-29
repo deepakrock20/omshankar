@@ -1,6 +1,20 @@
+import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
 import "./index.css";
+
+// Global runtime error handlers - attach **before** dynamically loading app code
+window.addEventListener("error", (e) => {
+  // Log errors so they don't silently abort the app
+  // eslint-disable-next-line no-console
+  console.error("Runtime error:", (e as ErrorEvent).error || (e as ErrorEvent).message || e);
+});
+
+window.addEventListener("unhandledrejection", (e) => {
+  // Prevent unhandled rejection from bubbling and aborting hydration
+  // eslint-disable-next-line no-console
+  console.error("Unhandled rejection:", (e as PromiseRejectionEvent).reason || e);
+  try { (e as PromiseRejectionEvent).preventDefault(); } catch (_) {}
+});
 
 // Lightweight window typings for analytics
 declare global {
@@ -103,11 +117,38 @@ if (document.readyState === 'loading') {
   applyAbsoluteMetaAndJsonLd();
 }
 
+// Minimal ErrorBoundary to prevent a single component error from aborting the whole app
+class ErrorBoundary extends React.Component<{ children?: React.ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  componentDidCatch(error: any, info: any) {
+    // eslint-disable-next-line no-console
+    console.error("React ErrorBoundary caught:", error, info);
+    this.setState({ hasError: true });
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children || null;
+  }
+}
+
 const rootEl = document.getElementById("root");
 
 if (!rootEl) {
   console.error("❌ React root element not found");
 } else {
-  createRoot(rootEl).render(<App />);
+  // Dynamically import the app so global handlers are installed before app modules evaluate
+  import("./App")
+    .then(({ default: App }) => {
+      createRoot(rootEl).render(
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      );
+    })
+    .catch((err) => {
+      // If app module fails to load, log clearly but do not throw
+      // eslint-disable-next-line no-console
+      console.error("Failed to load App module:", err);
+    });
 }
 
