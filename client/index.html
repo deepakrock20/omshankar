@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Omshankar Passi — Digital Marketing, SEO & Web Developer</title>
-    <meta name="description" content="Omshankar Passi — Digital Marketing & Web Development portfolio. SEO specialist, web developer, and designer focused on conversions and performance." />
+    <meta name="description" content="Omshankar Passi — SEO specialist and web developer building fast, accessible, conversion-focused websites and performance-driven digital experiences." />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="/index.html" />
 
     <meta property="og:title" content="Omshankar Passi | Digital Portfolio" />
-    <meta property="og:description" content="Digital Marketing & Web Development Professional Portfolio" />
+    <meta property="og:description" content="Omshankar Passi — SEO specialist and web developer creating fast, accessible, conversion-focused websites." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/opengraph.jpg" />
+    <meta property="og:url" content="/index.html" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Omshankar Passi | Digital Portfolio" />
-    <meta name="twitter:description" content="Digital Marketing & Web Development Professional Portfolio" />
+    <meta name="twitter:description" content="Omshankar Passi — SEO specialist and web developer creating fast, accessible, conversion-focused websites." />
     <meta name="twitter:image" content="/opengraph.jpg" />
 
     <link rel="icon" type="image/png" href="/OMSHANKAR (1).png" />
 
     <!-- Preload LCP image (highest priority) - preload the actual image used by the hero to avoid unused preload warnings -->
-    <link rel="preload" as="image" href="/images/profile-1200.webp" type="image/webp" crossorigin>
+    <link rel="preload" as="image"
+          href="/images/profile-1200.avif"
+          type="image/avif"
+          imagesrcset="/images/profile-1200.avif 1200w, /images/profile-800.avif 800w, /images/profile-400.avif 400w"
+          imagesizes="(max-width: 768px) 80vw, 40vw">
 
     <!-- Critical above-the-fold styles for Hero (inlined to avoid render-blocking CSS) -->
     <style>
