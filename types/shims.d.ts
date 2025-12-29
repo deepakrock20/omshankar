@@ -17,3 +17,24 @@ declare const process: {
   env: { [key: string]: string | undefined };
   exit(code?: number): never | void;
 };
+
+// Global window typings for analytics
+declare global {
+  interface Window {
+    dataLayer?: any[];
+    gtag?: (...args: any[]) => void;
+  }
+}
+
+// Minimal ImportMeta.env typing for Vite env vars
+interface ImportMetaEnv {
+  VITE_GA_ID?: string;
+  [key: string]: string | undefined;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
+export {};
+
