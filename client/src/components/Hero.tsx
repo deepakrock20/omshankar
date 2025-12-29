@@ -26,9 +26,9 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
             className="inline-block px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-6"
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-cyan-500 font-bold uppercase tracking-widest text-xs">
+            {/* <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-cyan-500 font-bold uppercase tracking-widest text-xs">
               Portfolio 2025
-            </span>
+            </span> */}
           </motion.div>
 
           <h1 className="font-display text-1xl md:text-6xl font-bold leading-[1] tracking-tighter mb-8">
@@ -84,6 +84,7 @@ export default function Hero() {
                 <img
                   src="/images/profile-1200.webp"
                   alt="Omshankar Passi portrait"
+                  loading="eager"
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 rounded-3xl"
                   width={1200}
                   height={2000}

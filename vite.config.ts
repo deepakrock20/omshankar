@@ -44,10 +44,13 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor-react';
+            // Bundle react into the catch-all vendor chunk to avoid a possible runtime
+            // evaluation ordering issue where the React internals object is undefined
+            // during module evaluation when react is isolated. This keeps bundling
+            // non-visual and focuses on reliability.
             if (id.includes('framer-motion')) return 'vendor-framer';
             if (id.includes('three') || id.includes('vanta')) return 'vendor-graphics';
-            // catch-all for other large libs (radix, recharts, etc.)
+            // catch-all for other large libs (radix, recharts, etc.) — includes react now
             return 'vendor~misc';
           }
         },

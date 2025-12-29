@@ -9,7 +9,7 @@ export default function Contact() {
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10" />
-        <img src={bgImg} alt="bg" aria-hidden className="w-full h-full object-cover" loading="lazy" />
+        <img src={bgImg} alt="" aria-hidden className="w-full h-full object-cover" loading="lazy" />
       </div>
 
       <div className="container mx-auto px-6 relative z-20">

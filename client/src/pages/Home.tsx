@@ -19,28 +19,37 @@ export default function Home() {
   const vantaRef = useRef(null);
 
   useEffect(() => {
+    let mounted = true;
     if (!vantaEffect && vantaRef.current) {
-      setVantaEffect(
-        NET({
+      try {
+        const effect = NET({
           el: vantaRef.current,
           THREE: THREE,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
           color: 0xff00b7,
           backgroundColor: 0x1a0d31,
-          points: 12.00,
-          maxDistance: 22.00,
-          spacing: 18.00
-        })
-      );
+          points: 12.0,
+          maxDistance: 22.0,
+          spacing: 18.0
+        });
+        if (mounted && effect) setVantaEffect(effect as any);
+      } catch (err) {
+        // Log clearly; don't alter UI. This prevents uncaught runtime errors from breaking scripts.
+        // eslint-disable-next-line no-console
+        console.error("Vanta init failed:", err);
+      }
     }
     return () => {
-      if (vantaEffect) (vantaEffect as any).destroy();
+      mounted = false;
+      if (vantaEffect && typeof (vantaEffect as any).destroy === "function") {
+        (vantaEffect as any).destroy();
+      }
     };
   }, [vantaEffect]);
 
