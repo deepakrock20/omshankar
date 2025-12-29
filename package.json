@@ -7,7 +7,7 @@
     "dev:client": "vite dev --port 5000",
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "tsx script/build.ts",
-    "vercel-build": "npm run optimize:images && vite build",
+    "vercel-build": "vite build",
     "optimize:images": "node script/optimize-images.js",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
