@@ -4,17 +4,63 @@ import "./index.css";
 
 // Global runtime error handlers - attach **before** dynamically loading app code
 window.addEventListener("error", (e) => {
-  // Log errors so they don't silently abort the app
-  // eslint-disable-next-line no-console
-  console.error("Runtime error:", (e as ErrorEvent).error || (e as ErrorEvent).message || e);
+  try {
+    const ev = e as ErrorEvent;
+    const info = {
+      message: ev.message,
+      filename: ev.filename,
+      lineno: ev.lineno,
+      colno: ev.colno,
+      stack: (ev.error && ev.error.stack) || undefined,
+    };
+    // eslint-disable-next-line no-console
+    console.error("Runtime error:", info);
+
+    // If the error comes from a same-origin /assets/*.js, fetch a snippet for debugging
+    if (typeof ev.filename === 'string' && ev.filename.startsWith(location.origin) && ev.filename.includes('/assets/')) {
+      fetchSnippetAndLog(ev.filename, ev.lineno || 0).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch snippet:', err);
+      });
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error handler failed:', err);
+  }
 });
 
 window.addEventListener("unhandledrejection", (e) => {
-  // Prevent unhandled rejection from bubbling and aborting hydration
-  // eslint-disable-next-line no-console
-  console.error("Unhandled rejection:", (e as PromiseRejectionEvent).reason || e);
-  try { (e as PromiseRejectionEvent).preventDefault(); } catch (_) {}
+  try {
+    const ev = e as PromiseRejectionEvent;
+    const reason = (ev.reason && (ev.reason.message || ev.reason.toString())) || String(ev.reason);
+    // eslint-disable-next-line no-console
+    console.error("Unhandled rejection:", { reason });
+    try { ev.preventDefault(); } catch (_) {}
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Unhandled rejection handler failed:', err);
+  }
 });
+
+async function fetchSnippetAndLog(url: string, lineno: number) {
+  try {
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('Non-OK response ' + resp.status);
+    const text = await resp.text();
+    const lines = text.split(/\r?\n/);
+    const index = Math.max(0, lineno - 10);
+    const snippet = lines.slice(index, index + 40).map((l, i) => `${index + i + 1}: ${l}`).join('\n');
+    // eslint-disable-next-line no-console
+    console.groupCollapsed(`Remote snippet ${url} lines ${index + 1}-${index + 40}`);
+    // eslint-disable-next-line no-console
+    console.log(snippet);
+    // eslint-disable-next-line no-console
+    console.groupEnd();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('fetchSnippetAndLog error:', err);
+  }
+}
 
 // Lightweight window typings for analytics
 declare global {
